@@ -1,0 +1,90 @@
+{
+  "title": "test",
+  "mesh": {
+    "mesh": "mesh.txt",
+    "entity_sets": "entity_sets.json",
+    "boundary_conditions": {
+        "velocity_constraints": [
+            {
+                "nset_id" : 0,
+                "dir": 0,
+                "velocity": 0.00
+            },
+            {
+                "nset_id" : 1,
+                "dir": 1,
+                "velocity": 0.00
+            }
+        ],
+        "friction_constraints":[
+          {
+            "nset_id": 1,
+            "dir": 1,
+            "sign_n": -1,
+            "friction": 0.5
+          }
+        ]
+    },
+    "isoparametric": false,
+    "check_duplicates": false,
+    "cell_type": "ED2Q4",
+    "io_type": "Ascii2D",
+    "node_type": "N2D"
+  },
+  "particles": [
+    {
+      "generator": {
+        "check_duplicates": false,
+        "location": "particles.txt",
+        "io_type": "Ascii2D",
+        "particle_type": "P2D",
+        "material_id": 1,
+        "type": "file"
+      },
+      "set_id": 1
+    }
+  ],
+  "materials": [
+    {
+      "id" : 1,
+      "type" : "MohrCoulomb2D",
+      "density" : 1800,
+      "youngs_modulus" : 1.0E+6,
+      "poisson_ratio" : 0.3,
+      "friction" : 15,
+      "dilation" : 0,
+      "cohesion" : 1000,
+      "residual_friction" : 0,
+      "residual_dilation" : 0,
+      "residual_cohesion" : 0,
+      "peak_pdstrain" : 0,
+      "residual_pdstrain" : 0,
+      "tension_cutoff" : 0.001,
+      "softening" : false,
+      "tolerance" : 1.0E-15
+    }
+  ],
+  "external_loading_conditions": {
+    "gravity": [0.0, -9.81]
+  },
+  "analysis": {
+    "type": "MPMExplicit2D",
+    "stress_update": "usf",
+    "velocity_update": false,
+    "dt": 5.0E-5,
+    "uuid": "oso_b3",
+    "nsteps": 10.001E+6,
+    "resume": {
+      "resume": false,
+      "uuid": "oso_b3",
+      "step": 5
+    },
+    "pressure_smoothing" : false
+  },
+  "post_processing": {
+    "output_steps": 1000,
+    "vtk": ["stresses", "displacments", "velocities"],
+    "vtk_statevars": ["pdstrain"],
+    "path": "results/"
+  }
+}
